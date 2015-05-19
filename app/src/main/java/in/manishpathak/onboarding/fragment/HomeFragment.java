@@ -5,10 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +28,7 @@ import in.manishpathak.onboarding.adapter.ImageSlideAdapter;
 import in.manishpathak.onboarding.bean.Product;
 import in.manishpathak.onboarding.json.GetJSONObject;
 import in.manishpathak.onboarding.utils.CirclePageIndicator;
+import in.manishpathak.onboarding.utils.CustomViewPager;
 import in.manishpathak.onboarding.utils.PageIndicator;
 import in.manishpathak.onboarding.utils.TagName;
 
@@ -41,7 +40,7 @@ public class HomeFragment extends Fragment {
 	private static final long ANIM_VIEWPAGER_DELAY_USER_VIEW = 10000;
 
 	// UI References
-	private ViewPager mViewPager;
+	private CustomViewPager mViewPager;
 	TextView imgNameTxt;
 	PageIndicator mIndicator;
 	int mIndicatorPosition;
@@ -50,11 +49,11 @@ public class HomeFragment extends Fragment {
 
 	List<Product> products;
 	RequestImgTask task;
-	boolean stopSliding = false;
+//	boolean stopSliding = false;
 	String message;
 
-	private Runnable animateViewPager;
-	private Handler handler;
+//	private Runnable animateViewPager;
+//	private Handler handler;
 	private Button skipBtn;
 
 	String url = "https://api.myjson.com/bins/558qt";
@@ -71,10 +70,15 @@ public class HomeFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		findViewById(view);
-		skipBtn = (Button) view.findViewById(R.id.btn_skip);
 
 		mIndicator.setOnPageChangeListener(new PageChangeListener());
 		mViewPager.setOnPageChangeListener(new PageChangeListener());
+		mViewPager.setOnSwipeOutListener(new CustomViewPager.OnSwipeOutListener() {
+			@Override
+			public void onSwipeOutAtEnd() {
+				getActivity().finish();
+			}
+		});
 		mViewPager.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -88,19 +92,19 @@ public class HomeFragment extends Fragment {
 				case MotionEvent.ACTION_UP:
 					// calls when touch release on ViewPager
 					if (products != null && products.size() != 0) {
-						stopSliding = false;
-						runnable(products.size());
-						handler.postDelayed(animateViewPager,
-								ANIM_VIEWPAGER_DELAY_USER_VIEW);
+//						stopSliding = false;false
+//						runnable(products.size());
+//						handler.postDelayed(animateViewPager,
+//								ANIM_VIEWPAGER_DELAY_USER_VIEW);
 					}
 					break;
 
 				case MotionEvent.ACTION_MOVE:
 					// calls when ViewPager touch
-					if (handler != null && stopSliding == false) {
-						stopSliding = true;
-						handler.removeCallbacks(animateViewPager);
-					}
+//					if (handler != null && stopSliding == false) {
+//						stopSliding = true;
+//						handler.removeCallbacks(animateViewPager);
+//					}
 					break;
 				}
 				return false;
@@ -111,28 +115,11 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void findViewById(View view) {
-		mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
+		mViewPager = (CustomViewPager) view.findViewById(R.id.view_pager);
 		mIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
 		imgNameTxt = (TextView) view.findViewById(R.id.img_name);
+		skipBtn = (Button) view.findViewById(R.id.btn_skip);
 	}
-
-	public void runnable(final int size) {
-		handler = new Handler();
-		animateViewPager = new Runnable() {
-			public void run() {
-				if (!stopSliding) {
-					if (mViewPager.getCurrentItem() == size - 1) {
-						mViewPager.setCurrentItem(0);
-					} else {
-						mViewPager.setCurrentItem(
-								mViewPager.getCurrentItem() + 1, true);
-					}
-					handler.postDelayed(animateViewPager, ANIM_VIEWPAGER_DELAY);
-				}
-			}
-		};
-	}
-
 
 	@Override
 	public void onResume() {
@@ -143,12 +130,10 @@ public class HomeFragment extends Fragment {
 					HomeFragment.this));
 
 			mIndicator.setViewPager(mViewPager);
-			imgNameTxt.setText(""
-					+ ((Product) products.get(mViewPager.getCurrentItem()))
-							.getName());
-			runnable(products.size());
+
+//			runnable(products.size());
 			//Re-run callback
-			handler.postDelayed(animateViewPager, ANIM_VIEWPAGER_DELAY);
+//			handler.postDelayed(animateViewPager, ANIM_VIEWPAGER_DELAY);
 		}
 		super.onResume();
 	}
@@ -158,10 +143,10 @@ public class HomeFragment extends Fragment {
 	public void onPause() {
 		if (task != null)
 			task.cancel(true);
-		if (handler != null) {
-			//Remove callback
-			handler.removeCallbacks(animateViewPager);
-		}
+//		if (handler != null) {
+//			//Remove callback
+//			handler.removeCallbacks(animateViewPager);
+//		}
 		super.onPause();
 	}
 
@@ -171,12 +156,12 @@ public class HomeFragment extends Fragment {
 		mViewPager.setAdapter(new ImageSlideAdapter(activity, products,
 				HomeFragment.this));
 		mIndicator.setViewPager(mViewPager);
-		imgNameTxt.setText(""
-				+ ((Product) products.get(mViewPager.getCurrentItem()))
-				.getName());
-		runnable(products.size());
+//		imgNameTxt.setText(""
+//				+ ((Product) products.get(mViewPager.getCurrentItem()))
+//				.getName());
+//		runnable(products.size());
 		//Re-run callback
-		handler.postDelayed(animateViewPager, ANIM_VIEWPAGER_DELAY);
+//		handler.postDelayed(animateViewPager, ANIM_VIEWPAGER_DELAY);
 
 //		if (CheckNetworkConnection.isConnectionAvailable(activity)) {
 //			task = new RequestImgTask(activity);
@@ -207,7 +192,7 @@ public class HomeFragment extends Fragment {
 
 		@Override
 		public void onPageScrollStateChanged(int state) {
-			if (state == ViewPager.SCROLL_STATE_IDLE) {
+			if (state == CustomViewPager.SCROLL_STATE_IDLE) {
 				if (products != null) {
 
 					Log.e("Switch", mIndicatorPosition + "");
@@ -223,7 +208,7 @@ public class HomeFragment extends Fragment {
 				}
 			}
 
-			if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+			if (state == CustomViewPager.SCROLL_STATE_DRAGGING) {
 				Log.e("Switch", mIndicatorPosition + "");
 //				if(mViewPager.getCurrentItem() == products.size()-1){
 //					skipBtn.setText("CONTINUE");
@@ -342,12 +327,12 @@ public class HomeFragment extends Fragment {
 									activity, products, HomeFragment.this));
 
 							mIndicator.setViewPager(mViewPager);
-							imgNameTxt.setText(""
-									+ ((Product) products.get(mViewPager
-											.getCurrentItem())).getName());
-							runnable(products.size());
-							handler.postDelayed(animateViewPager,
-									ANIM_VIEWPAGER_DELAY);
+//							imgNameTxt.setText(""
+//									+ ((Product) products.get(mViewPager
+//											.getCurrentItem())).getName());
+//							runnable(products.size());
+//							handler.postDelayed(animateViewPager,
+//									ANIM_VIEWPAGER_DELAY);
 						} else {
 							imgNameTxt.setText("No Products");
 						}
