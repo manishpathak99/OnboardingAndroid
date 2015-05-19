@@ -81,8 +81,11 @@ public class ImageSlideAdapter extends PagerAdapter {
 //				transaction.commit();
 			}
 		});
-		imageLoader.displayImage(
-				((Product) products.get(position)).getImageUrl(), mImageView,
+//		imageLoader.displayImage(
+//				((Product) products.get(position)).getImageUrl(), mImageView,
+//				options, imageListener);
+
+		imageLoader.displayImage("drawable://" + R.drawable.ic_launcher, mImageView,
 				options, imageListener);
 		container.addView(view);
 		return view;
