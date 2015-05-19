@@ -83,28 +83,35 @@ public class HomeFragment extends Fragment {
 				v.getParent().requestDisallowInterceptTouchEvent(true);
 				switch (event.getAction()) {
 
-				case MotionEvent.ACTION_CANCEL:
-					break;
+					case MotionEvent.ACTION_CANCEL:
+						break;
 
-				case MotionEvent.ACTION_UP:
-					// calls when touch release on ViewPager
-					if (products != null && products.size() != 0) {
+					case MotionEvent.ACTION_UP:
+						// calls when touch release on ViewPager
+						if (products != null && products.size() != 0) {
 //						stopSliding = false;false
 //						runnable(products.size());
 //						handler.postDelayed(animateViewPager,
 //								ANIM_VIEWPAGER_DELAY_USER_VIEW);
-					}
-					break;
+						}
+						break;
 
-				case MotionEvent.ACTION_MOVE:
-					// calls when ViewPager touch
+					case MotionEvent.ACTION_MOVE:
+						// calls when ViewPager touch
 //					if (handler != null && stopSliding == false) {
 //						stopSliding = true;
 //						handler.removeCallbacks(animateViewPager);
 //					}
-					break;
+						break;
 				}
 				return false;
+			}
+		});
+
+		skipBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getActivity().finish();
 			}
 		});
 
@@ -219,10 +226,16 @@ public class HomeFragment extends Fragment {
 			mIndicatorPosition = position;
 			if(mViewPager.getCurrentItem() == products.size()-1){
 				skipBtn.setText("CONTINUE");
+//				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//						LinearLayout.LayoutParams.MATCH_PARENT);
+//				skipBtn.setLayoutParams(params);
 				skipBtn.setBackgroundResource(R.drawable.btn_selector_continue);
 				skipBtn.setTextColor(getResources().getColor(android.R.color.white));
 			} else {
 				skipBtn.setText("SKIP");
+//				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+//						LinearLayout.LayoutParams.WRAP_CONTENT);
+//				skipBtn.setLayoutParams(params);
 				skipBtn.setBackgroundResource(android.R.color.transparent);
 				skipBtn.setTextColor(getResources().getColor(R.color.green_bullet));
 			}
