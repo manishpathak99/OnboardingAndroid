@@ -8,6 +8,7 @@ public class Product implements Parcelable {
 	private int id;
 	private String name;
 	private String imageUrl;
+	private int imgresID;
 
 	public Product() {
 		super();
@@ -18,6 +19,7 @@ public class Product implements Parcelable {
 		this.id = in.readInt();
 		this.name = in.readString();
 		this.imageUrl = in.readString();
+		this.imgresID = in.readInt();
 	}
 
 	@Override
@@ -30,6 +32,7 @@ public class Product implements Parcelable {
 		parcel.writeInt(getId());
 		parcel.writeString(getName());
 		parcel.writeString(getImageUrl());
+		parcel.writeInt(getImgresID());
 	}
 
 	public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -95,6 +98,16 @@ public class Product implements Parcelable {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", imageUrl="
-				+ imageUrl + "]";
+				+ imageUrl + "imgresID=" + imgresID + "]";
 	}
+
+	public int getImgresID() {
+		return imgresID;
+	}
+
+	public void setImgresID(int imgresID) {
+		this.imgresID = imgresID;
+	}
+
+
 }

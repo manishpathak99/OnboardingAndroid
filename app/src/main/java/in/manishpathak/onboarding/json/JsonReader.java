@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.manishpathak.onboarding.R;
 import in.manishpathak.onboarding.bean.Product;
 import in.manishpathak.onboarding.utils.TagName;
 
@@ -30,4 +31,23 @@ public class JsonReader {
 		}
 		return products;
 	}
+
+	public static List<Product> getAllImages() {
+		List<Product> products = new ArrayList<Product>();
+		int[] imgArr = {R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher};
+//		JSONArray jsonArray = jsonObject.getJSONArray(TagName.TAG_PRODUCTS);
+		Product product;
+		for (int i = 0; i < 4; i++) {
+			product = new Product();
+
+			product.setId(i);
+			product.setName(i+"name");
+//			product.setImageUrl(imgArr[i]);
+			product.setImgresID(imgArr[i]);
+
+			products.add(product);
+		}
+		return products;
+	}
+
 }
