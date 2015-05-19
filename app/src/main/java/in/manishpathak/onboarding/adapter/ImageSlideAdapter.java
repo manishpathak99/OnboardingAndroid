@@ -39,7 +39,7 @@ public class ImageSlideAdapter extends PagerAdapter {
 		this.products = products;
 		options = new DisplayImageOptions.Builder()
 				.showImageOnFail(R.drawable.ic_error)
-				.showStubImage(R.drawable.ic_launcher)
+				.showStubImage(R.drawable.first)
 				.showImageForEmptyUri(R.drawable.ic_empty).cacheInMemory()
 				.cacheOnDisc().build();
 
@@ -85,8 +85,9 @@ public class ImageSlideAdapter extends PagerAdapter {
 //				((Product) products.get(position)).getImageUrl(), mImageView,
 //				options, imageListener);
 
-		imageLoader.displayImage("drawable://" + R.drawable.ic_launcher, mImageView,
-				options, imageListener);
+//		imageLoader.displayImage("drawable://" + R.drawable.ic_launcher, mImageView,
+//				options, imageListener);
+		mImageView.setImageResource(((Product) products.get(position)).getImgresID());
 		container.addView(view);
 		return view;
 	}

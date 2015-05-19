@@ -10,11 +10,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -42,6 +44,7 @@ public class HomeFragment extends Fragment {
 	private ViewPager mViewPager;
 	TextView imgNameTxt;
 	PageIndicator mIndicator;
+	int mIndicatorPosition;
 
 	AlertDialog alertDialog;
 
@@ -52,6 +55,7 @@ public class HomeFragment extends Fragment {
 
 	private Runnable animateViewPager;
 	private Handler handler;
+	private Button skipBtn;
 
 	String url = "https://api.myjson.com/bins/558qt";
 	FragmentActivity activity;
@@ -67,6 +71,7 @@ public class HomeFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		findViewById(view);
+		skipBtn = (Button) view.findViewById(R.id.btn_skip);
 
 		mIndicator.setOnPageChangeListener(new PageChangeListener());
 		mViewPager.setOnPageChangeListener(new PageChangeListener());
@@ -204,19 +209,57 @@ public class HomeFragment extends Fragment {
 		public void onPageScrollStateChanged(int state) {
 			if (state == ViewPager.SCROLL_STATE_IDLE) {
 				if (products != null) {
-					imgNameTxt.setText(""
-							+ ((Product) products.get(mViewPager
-									.getCurrentItem())).getName());
+
+					Log.e("Switch", mIndicatorPosition + "");
+					if(mViewPager.getCurrentItem() == products.size()-1){
+						skipBtn.setText("CONTINUE");
+						skipBtn.setBackgroundResource(R.drawable.btn_selector_continue);
+						skipBtn.setTextColor(getResources().getColor(android.R.color.white));
+					} else {
+						skipBtn.setText("SKIP");
+						skipBtn.setBackgroundResource(android.R.color.transparent);
+						skipBtn.setTextColor(getResources().getColor(R.color.green_bullet));
+					}
 				}
+			}
+
+			if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+				Log.e("Switch", mIndicatorPosition + "");
+//				if(mViewPager.getCurrentItem() == products.size()-1){
+//					skipBtn.setText("CONTINUE");
+//					skipBtn.setBackgroundResource(R.drawable.btn_selector_continue);
+//					skipBtn.setTextColor(getResources().getColor(android.R.color.white));
+//				} else {
+//					skipBtn.setText("SKIP");
+//					skipBtn.setBackgroundResource(android.R.color.transparent);
+//					skipBtn.setTextColor(getResources().getColor(R.color.green_bullet));
+//				}
 			}
 		}
 
 		@Override
-		public void onPageScrolled(int arg0, float arg1, int arg2) {
+		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+			Log.e("onPageScrolled", mIndicatorPosition + "");
+//			if(position + 1 == products.size()-1 && positionOffset > 0){
+//				skipBtn.setText("CONTINUE");
+//				skipBtn.setBackgroundResource(R.drawable.btn_selector_continue);
+//				skipBtn.setTextColor(getResources().getColor(android.R.color.white));
+//			}
 		}
 
 		@Override
-		public void onPageSelected(int arg0) {
+		public void onPageSelected(int position) {
+			Log.e("Onboarding onPageSelected", String.valueOf(position));
+			mIndicatorPosition = position;
+			if(mViewPager.getCurrentItem() == products.size()-1){
+				skipBtn.setText("CONTINUE");
+				skipBtn.setBackgroundResource(R.drawable.btn_selector_continue);
+				skipBtn.setTextColor(getResources().getColor(android.R.color.white));
+			} else {
+				skipBtn.setText("SKIP");
+				skipBtn.setBackgroundResource(android.R.color.transparent);
+				skipBtn.setTextColor(getResources().getColor(R.color.green_bullet));
+			}
 		}
 	}
 

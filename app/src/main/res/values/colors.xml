@@ -4,5 +4,8 @@
     <color name="holo_blue_dark">#ff0099cc</color>
     <color name="view_divider_color">#BABABA</color>
     <color name="view_divider_color_2">#DADADA</color>
-
+    <color name="green_filler">#ff16762E</color>
+    <color name="green">#ff00ff00</color>
+    <color name="green_bullet">#ff0ba50b</color>
+    <color name="green_onboarding_btn">#ff16762E</color>
 </resources>

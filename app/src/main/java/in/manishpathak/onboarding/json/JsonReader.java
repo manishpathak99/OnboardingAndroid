@@ -34,7 +34,7 @@ public class JsonReader {
 
 	public static List<Product> getAllImages() {
 		List<Product> products = new ArrayList<Product>();
-		int[] imgArr = {R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher};
+		int[] imgArr = {R.drawable.first, R.drawable.second, R.drawable.third};
 //		JSONArray jsonArray = jsonObject.getJSONArray(TagName.TAG_PRODUCTS);
 		Product product;
 		for (int i = 0; i < 3; i++) {
