@@ -27,7 +27,6 @@ import in.manishpathak.onboarding.R;
 import in.manishpathak.onboarding.adapter.ImageSlideAdapter;
 import in.manishpathak.onboarding.bean.Product;
 import in.manishpathak.onboarding.json.GetJSONObject;
-import in.manishpathak.onboarding.utils.CheckNetworkConnection;
 import in.manishpathak.onboarding.utils.CirclePageIndicator;
 import in.manishpathak.onboarding.utils.PageIndicator;
 import in.manishpathak.onboarding.utils.TagName;
@@ -162,13 +161,25 @@ public class HomeFragment extends Fragment {
 	}
 
 	private void sendRequest() {
-		if (CheckNetworkConnection.isConnectionAvailable(activity)) {
-			task = new RequestImgTask(activity);
-			task.execute(url);
-		} else {
-			message = getResources().getString(R.string.no_internet_connection);
-			showAlertDialog(message, true);
-		}
+		products = in.manishpathak.onboarding.json.JsonReader.getAllImages();
+
+		mViewPager.setAdapter(new ImageSlideAdapter(activity, products,
+				HomeFragment.this));
+		mIndicator.setViewPager(mViewPager);
+		imgNameTxt.setText(""
+				+ ((Product) products.get(mViewPager.getCurrentItem()))
+				.getName());
+		runnable(products.size());
+		//Re-run callback
+		handler.postDelayed(animateViewPager, ANIM_VIEWPAGER_DELAY);
+
+//		if (CheckNetworkConnection.isConnectionAvailable(activity)) {
+//			task = new RequestImgTask(activity);
+//			task.execute(url);
+//		} else {
+//			message = getResources().getString(R.string.no_internet_connection);
+//			showAlertDialog(message, true);
+//		}
 	}
 
 	public void showAlertDialog(String message, final boolean finish) {
