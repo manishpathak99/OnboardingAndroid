@@ -58,7 +58,7 @@ public class CustomViewPager extends ViewPager {
             case MotionEvent.ACTION_MOVE:
                 if (mStartDragX < x && getCurrentItem() == 0) {
 //                    mListener.onSwipeOutAtStart();
-                } else if (mStartDragX > x && getCurrentItem() == getAdapter().getCount() - 1) {
+                } else if (mListener !=null && mStartDragX > x && getCurrentItem() == getAdapter().getCount() - 1) {
                     mListener.onSwipeOutAtEnd();
                 }
                 break;
