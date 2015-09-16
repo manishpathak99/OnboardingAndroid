@@ -41,15 +41,15 @@ public class HomeFragment extends Fragment {
 
 	// UI References
 	private CustomViewPager mViewPager;
-	TextView imgNameTxt;
-	PageIndicator mIndicator;
-	int mIndicatorPosition;
+	private TextView imgNameTxt;
+	private PageIndicator mIndicator;
+	private int mIndicatorPosition;
 
-	AlertDialog alertDialog;
+	private AlertDialog alertDialog;
 
-	List<Product> products;
-	RequestImgTask task;
-	String message;
+	private List<Product> products;
+	private RequestImgTask task;
+	private String message;
 
 	private Button skipBtn;
 
